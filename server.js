@@ -1,37 +1,33 @@
+const express = require("express");
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+
+// HOME PAGE
 app.get("/", (req, res) => {
   res.send("⚽ AI Sport Server ishlayapti!");
 });
-const express = require("express");
-const cors = require("cors");
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-// 🧠 AI PROGNOZ (oddiy real logic)
-function predict(match) {
-    const rand = Math.random();
-
-    if (rand > 0.6) return `${match.home} yutadi ⚽`;
-    if (rand > 0.3) return `Durang 🤝`;
-    return `${match.away} yutadi ⚽`;
-}
-
-// 📡 LIVE MATCH API (demo)
+// SAMPLE MATCHES API
 app.get("/matches", (req, res) => {
-    res.json([
-        {home:"Barcelona", away:"Real Madrid", score:"2-1"},
-        {home:"Man City", away:"Arsenal", score:"1-1"}
-    ]);
+  res.json([
+    { team1: "Barcelona", team2: "Real Madrid", time: "20:00" },
+    { team1: "Man City", team2: "Arsenal", time: "22:00" }
+  ]);
 });
 
-// 🤖 AI PREDICTION API
-app.post("/predict", (req, res) => {
-    const match = req.body;
-    const result = predict(match);
-    res.json({prediction: result});
+// SIMPLE PREDICTION (FAKE AI)
+app.get("/predict", (req, res) => {
+  const teams = ["Win 🟢", "Draw ⚪", "Lose 🔴"];
+  const result = teams[Math.floor(Math.random() * teams.length)];
+
+  res.json({
+    prediction: result,
+    message: "AI taxmin (demo)"
+  });
 });
 
-app.listen(3000, () => {
-    console.log("AI server ishladi http://localhost:3000");
+// START SERVER
+app.listen(PORT, () => {
+  console.log("AI server ishladi:", PORT);
 });
