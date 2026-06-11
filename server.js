@@ -1,3 +1,6 @@
+app.get("/", (req, res) => {
+  res.send("⚽ AI Sport Server ishlayapti!");
+});
 const express = require("express");
 const cors = require("cors");
 
